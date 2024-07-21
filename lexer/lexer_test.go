@@ -8,16 +8,14 @@ import (
 func TestNextToken(t *testing.T) {
 
   input :=
-  `
-  let five = 5;
+  `let five = 5;
   let ten = 10;
 
   let add = fn(x, y) {
     x + y;
   };
 
-  let result = add(five, ten);
-  `
+  let result = add(five, ten);`
 
   tests := []struct {
     expectedType    token.TokenType
@@ -26,11 +24,13 @@ func TestNextToken(t *testing.T) {
     {token.LET,    "let"  },
     {token.IDENT,  "five" },
     {token.ASSIGN, "="    },
+    {token.INT,    "5"    },
     {token.SEMI,   ";"    },
 
     {token.LET,    "let"  },
     {token.IDENT,  "ten"  },
     {token.ASSIGN, "="    },
+    {token.INT,    "10"    },
     {token.SEMI,   ";"    },
 
     {token.LET,      "let" },
@@ -47,18 +47,19 @@ func TestNextToken(t *testing.T) {
     {token.ADD,      "+"   },
     {token.IDENT,    "y"   },
     {token.SEMI,     ";"   },
-    {token.RBRACE,   "{"   },
+    {token.RBRACE,   "}"   },
     {token.SEMI,     ";"   },
 
     {token.LET,    "let"    },
     {token.IDENT,  "result" },
     {token.ASSIGN, "="      },
-    {token.ADD,    "+"      },
+    {token.IDENT,  "add"    },
     {token.LPAREN, "("      },
     {token.IDENT,  "five"   },
     {token.COMMA,  ","      },
     {token.IDENT,  "ten"    },
-    {token.SEMI,     ";"   },
+    {token.RPAREN, ")"      },
+    {token.SEMI,   ";"      },
   }
 
   l := New(input)
